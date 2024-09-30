@@ -145,7 +145,7 @@
                                 </button>
                                 <button class="btn btn-secondary" data-bs-toggle="modal"
                                     data-bs-target="#newFolderModal">
-                                    <i class="bi bi-folder-fill text-warning"></i> Nueva carpeta
+                                    <i class="bi bi-folder-fill text-warning"></i> Nueva carpetas
                                 </button>
                             </div>
 
