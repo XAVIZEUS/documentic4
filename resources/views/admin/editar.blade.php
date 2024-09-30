@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <x-head/>
+    <title>Editar Usuario</title>
+
+    <!-- Custom fonts for this template-->
+    <link href="{{ asset('/vendor/fontawesome-free/css/all.min.css') }}" rel="stylesheet" type="text/css">
+    <link
+        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+        rel="stylesheet">
+
+    <!-- Custom styles for this template-->
+    <link href="{{ asset('/css/sb-admin-2.min.css') }}" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/virtual-select.min.css') }}">
+
+
+
+
+    <style>
+        .bg-custom {
+            background-color: #154733;
+            /* Cambia este valor al color que desees */
+        }
+
+        .bg-custom-brand {
+            background-color: #FFFFFF;
+            /* Cambia este valor al color que desees */
+            padding: 5px;
+            /* Ajusta el padding según sea necesario */
+            border-radius: 0px;
+            /* Para bordes redondeados, opcional */
+        }
+
+        /*stilos para la foto de perfil*/
+        .img-profile {
+            width: 55px;
+            /* Ajusta el tamaño máximo de la imagen */
+            height: 55px;
+            /* Ajusta la altura máxima de la imagen */
+            object-fit: cover;
+            /* Para mantener la proporción y rellenar el área */
+        }
+    </style>
+
+</head>
+
+<body id="page-top">
+
+    <div id="wrapper">
+
+        <x-menuadmin />
+        <!-- Content Wrapper -->
+        <div id="content-wrapper" class="d-flex flex-column">
+
+
+            <!-- Main content -->
+            <div id="content">
+
+                <!--HEADER -->
+                <x-header />
+
+                <!-- Contienido de pagina -->
+                <div class="container">
+
+                    <!-- Contenido del Formulario -->
+
+                    <div class="card o-hidden border-0 shadow-lg my-5">
+                        <div class="card-body p-0">
+                            <!-- Nested Row within Card Body -->
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="p-5">
+                                        <div class="text-center">
+                                            <h1 class="font-weight-bold text-success h1  mb-4">MODIFICAR DATOS DE
+                                                USUARIOS</h1>
+                                        </div>
+                                        <form class="user" action="{{ route('usuarios.actualizar') }}" method="post"
+                                            enctype="multipart/form-data">
+                                            @csrf
+                                            <hr>
+                                            <i class="fas fa-fw"></i>
+                                            <h3 class="text-center">DATOS DE LA EMPRESA</h3>
+
+                                            <hr>
+                                            <div class="form-group row">
+                                                <div class="col-sm-6 mb-3 mb-sm-0">
+                                                    <label for="region">Seleccionar Regional</label>
+                                                    <select class="form-control form-select rounded-pill" name="region"
+                                                        id="region">
+                                                        @foreach ($regionales as $region)
+                                                            @if ($user->idRegion == $region->idRegion)
+                                                                <option class="text-center"
+                                                                    value="{{ $region->idRegion }}" selected>
+                                                                    {{ $region->departamento }}</option>
+                                                            @else
+                                                                <option class="text-center"
+                                                                    value="{{ $region->idRegion }}">
+                                                                    {{ $region->departamento }}</option>
+                                                            @endif
+                                                        @endforeach
+                                                    </select>
+                                                </div>
+                                                <div class="col-sm-6 mb-3 mb-sm-0">
+                                                    <label for="oficina">Seleccionar Oficina</label>
+                                                    <select class="form-control form-select rounded-pill" name="oficina"
+                                                        id="oficina">
+                                                        @foreach ($oficinas as $oficina)
+                                                            @if ($user->idOficina == $oficina->idOficina)
+                                                                <option class="text-center"
+                                                                    value="{{ $oficina->idOficina }}" selected>
+                                                                    {{ $oficina->nombre }}</option>
+                                                            @else
+                                                                <option class="text-center"
+                                                                    value="{{ $oficina->idOficina }}">
+                                                                    {{ $oficina->nombre }}</option>
+                                                            @endif
+                                                        @endforeach
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <div class="col-sm-6 mb-3 mb-sm-0">
+                                                    <label for="cargo">Seleccionar Cargo</label>
+                                                    <select class="form-control form-select rounded-pill" name="cargo"
+                                                        id="cargo">
+                                                        @foreach ($cargos as $cargo)
+                                                            @if ($user->idCargo == $cargo->idCargo)
+                                                                <option class="text-center"
+                                                                    value="{{ $cargo->idCargo }}" selected>
+                                                                    {{ $cargo->nombre }}</option>
+                                                            @else
+                                                                <option class="text-center"
+                                                                    value="{{ $cargo->idCargo }}">{{ $cargo->nombre }}
+                                                                </option>
+                                                            @endif
+                                                        @endforeach
+                                                    </select>
+                                                </div>
+                                                <div class="col-sm-6 mb-3 mb-sm-0">
+                                                    <label>Seleccionar Rol</label><br>
+
+                                                    <select id="rol" multiple name="rol"
+                                                        placeholder="Seleccione un rol"
+                                                        data-silent-initial-value-set="false">
+                                                        @foreach ($roles as $rol)2
+                                                            @php
+                                                                $selected = false;
+                                                            @endphp
+
+                                                            @foreach ($user->roles as $roleuser) , 2
+                                                                @if ($rol->idRol == $roleuser->idRol)
+                                                                    <option class="text-center"
+                                                                        value="{{ $rol->idRol }}" selected>
+                                                                        {{ $rol->nombre }}
+                                                                    </option>
+                                                                    @php
+                                                                        $selected = true;
+                                                                        break;
+                                                                    @endphp
+                                                                @endif
+                                                            @endforeach
+
+                                                            @if (!$selected)
+                                                                <option class="text-center"
+                                                                    value="{{ $rol->idRol }}">
+                                                                    {{ $rol->nombre }}
+                                                                </option>
+                                                            @endif
+                                                        @endforeach
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <i class="fas fa-fw"></i>
+                                            <h3 class="text-center">EDITAR DATOS PERSONALES</h3>
+                                            <hr>
+                                            <div class="form-group row">
+                                                <div class="col-sm-6 mb-3 mb-sm-0">
+                                                    <input type="hidden" value="{{ $user->idUsuario }}" id="id"
+                                                        name="id">
+                                                    <input type="text" class="form-control form-control-user"
+                                                        value="{{ $user->usuario }}" id="usuario" name="usuario"
+                                                        placeholder="Usuario" readonly>
+                                                    <input type="hidden" class="form-control form-control-user"
+                                                        value="{{ $user->password }}" id="pass" name="pass"
+                                                        placeholder="Usuario" readonly>
+
+                                                </div>
+                                                <div class="col-sm-6">
+                                                    <input type="text" class="form-control form-control-user"
+                                                        value="{{ $user->mosca }}" id="mosca" name="mosca"
+                                                        placeholder="Mosca" readonly>
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <div class="col-sm-6 mb-3 mb-sm-0">
+                                                    <input type="text" class="form-control form-control-user"
+                                                        id="nombres" name="nombres" value="{{ $user->nombres }}"
+                                                        placeholder="Nombres" required>
+                                                </div>
+                                                <div class="col-sm-6">
+                                                    <input type="text" class="form-control form-control-user"
+                                                        id="apellidos" name="apellidos"
+                                                        value="{{ $user->apellidos }}" placeholder="Apellidos"
+                                                        required>
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <div class="col-sm-6 mb-3 mb-sm-0">
+                                                    <input type="email" class="form-control form-control-user"
+                                                        id="correo" name="correo" value="{{ $user->correo }}"
+                                                        placeholder="Correo Electronico" required>
+                                                </div>
+
+                                                <div class="col-sm-6">
+                                                    <input type="text" class="form-control form-control-user"
+                                                        id="carnet" name="carnet" value="{{ $user->ci }}"
+                                                        placeholder="Carnet Identidad" required>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group row">
+                                                <div class="col-sm-6 mb-3 mb-sm-0">
+                                                    @if ($user->url_foto)
+                                                        <div class="row">
+                                                            <div class="col-sm-9 col-9">
+                                                                <!-- 4 columnas (de 6) para el input y label -->
+                                                                <div class="custom-file">
+                                                                    <input type="file"
+                                                                        class="form-control custom-file-input form-control-user rounded-pill"
+                                                                        id="foto" name="foto"
+                                                                        accept="image/*">
+                                                                    <label
+                                                                        class="form-control custom-file-label rounded-pill form-text"
+                                                                        for="foto"
+                                                                        data-browse="Seleccionar">Elegir
+                                                                        archivo</label>
+                                                                    <input type="hidden" id="foto-name"
+                                                                        name="foto_name">
+                                                                    <!-- Campo oculto para el nombre del archivo -->
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-sm-3 col-3">
+                                                                <!-- 2 columnas (de 6) para la imagen -->
+                                                                <img class="img-profile rounded-circle"
+                                                                    src="{{ asset('/storage/' . $user->url_foto) }}">
+                                                            </div>
+                                                        </div>
+                                                    @else
+                                                        <div class="custom-file">
+                                                            <input type="file"
+                                                                class="form-control custom-file-input form-control-user rounded-pill"
+                                                                id="foto" name="foto" accept="image/*">
+                                                            <label
+                                                                class="form-control custom-file-label rounded-pill form-text"
+                                                                for="foto" data-browse="Seleccionar">Elegir
+                                                                archivo</label>
+                                                            <input type="hidden" id="foto-name" name="foto_name">
+                                                            <!-- Campo oculto para el nombre del archivo -->
+                                                        </div>
+                                                    @endif
+
+
+                                                </div>
+                                                <div class="col-sm-6">
+                                                    <input type="text" class="form-control rounded-pill my-1"
+                                                        value="{{ $user->celular }}" id="celular" name="celular"
+                                                        placeholder="celular" required>
+                                                </div>
+                                            </div>
+
+                                            <div
+                                                class="form-group row justify-content-center align-items-center text-center">
+                                                <div class="col-sm-6 mb-3 mb-sm-0">
+                                                    <p class="text-primary">Si agrega una imagen, esta reemplazara a la
+                                                        actual</p>
+                                                </div>
+
+                                                <div class="col-sm-6">
+                                                    <a href="{{ route('restaurar.contrasena', $user->idUsuario) }}"
+                                                        class="btn btn-info rounded-pill boton-restaurar">Reestablecer
+                                                        Contraseña</a>
+                                                </div>
+                                            </div>
+
+
+                                            <button type="submit"
+                                                class="btn btn-success btn-user btn-block">Actualizar Usuario</button>
+
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <!-- /.container-fluid -->
+
+
+
+            </div>
+            <!-- end main content-->
+            <x-footer />
+
+
+        </div>
+        <!-- Fin Content wraper-->
+
+    </div>
+    <!-- final capa superior-->
+
+
+    <!-- Scroll to Top Button-->
+    <a class="scroll-to-top rounded" href="#page-top">
+        <i class="fas fa-angle-up"></i>
+    </a>
+
+
+    <!-- Logout Modal-->
+    <x-modal-salir />
+
+
+
+
+    <!--SCRIPTS -->
+
+    <!-- Bootstrap core JavaScript-->
+    <script src="{{ asset('/vendor/jquery/jquery.min.js') }}"></script>
+    <script src="{{ asset('/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+
+    <!-- Core plugin JavaScript-->
+    <script src="{{ asset('/vendor/jquery-easing/jquery.easing.min.js') }}"></script>
+
+    <!-- Custom scripts for all pages-->
+    <script src="{{ asset('/js/sb-admin-2.min.js') }}"></script>
+
+    <!-- Page level plugins -->
+    <script src="{{ asset('/vendor/chart.js/Chart.min.js') }}"></script>
+
+
+    <script type="text/javascript" src="{{ asset('js/virtual-select.min.js') }}"></script>
+
+    <script>
+        // Código para mostrar el nombre del archivo seleccionado
+        document.querySelector('.custom-file-input').addEventListener('change', function(e) {
+            var fileName = e.target.files[0].name;
+            var nextSibling = e.target.nextElementSibling;
+            nextSibling.innerText = fileName;
+
+            // Establece el nombre del archivo en el campo oculto
+            document.getElementById('foto-name').value = fileName;
+        });
+    </script>
+    <script>
+        function hoy() {
+            let today = new Date();
+            let day = String(today.getDate()).padStart(2, '0');
+            let month = String(today.getMonth() + 1).padStart(2, '0'); // Los meses en JavaScript son 0-11
+            let year = today.getFullYear();
+
+            return `${day}${month}${year}`;
+        }
+        // Seleccionar los campos de nombre y apellidos
+        let nombresInput = document.getElementById('nombres');
+        let apellidosInput = document.getElementById('apellidos');
+        let moscaInput = document.getElementById('mosca');
+        let oficinaInput = document.getElementById('oficina');
+        let regionalInput = document.getElementById('region');
+        let usuarioInput = document.getElementById('usuario');
+
+        // Escuchar cambios en los campos de nombre y apellidos
+        nombresInput.addEventListener('input', fillMosca);
+        apellidosInput.addEventListener('input', fillMosca);
+
+        // Función para llenar automáticamente el campo de mosca con los valores del nombre y apellidos
+        function fillMosca() {
+            let nombres = nombresInput.value.trim().split(' ').map(name => name[0] || '').join('');
+            let apellidos = apellidosInput.value.trim().split(' ').map(name => name[0] || '').join('');
+
+            moscaInput.value = `${nombres}${apellidos}`.trim();
+        }
+
+        nombresInput.addEventListener('input', fillUsuario);
+        apellidosInput.addEventListener('input', fillUsuario);
+        regionalInput.addEventListener('change', fillUsuario);
+        oficinaInput.addEventListener('change', fillUsuario);
+
+        function fillUsuario() {
+            let nombresU = nombresInput.value.trim().split(' ')[0];
+            let apellidosU = apellidosInput.value.trim().split(' ')[0];
+            //let regionValor = regionalInput.options[regionalInput.selectedIndex].textContent.substring(0,3).trim();
+            let regionValor = regionalInput.value.trim();
+            //let oficinaValor = oficinaInput.options[oficinaInput.selectedIndex].text.substring(0,3);
+            let oficinaValor = oficinaInput.value.trim();
+            console.log(regionValor);
+            usuarioInput.value = `${"UB-"}${regionValor+"-"+oficinaValor+"-"}${nombresU+"."+apellidosU}`.trim();
+        }
+    </script>
+
+    <script type="text/javascript">
+        VirtualSelect.init({
+            ele: '#rol'
+        });
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    @if (session('restaurado') == 'ok')
+        <script>
+            Swal.fire({
+                title: "¡Restaurado!",
+                text: "La contraseña fue restaurada",
+                icon: "success"
+            });
+        </script>
+    @endif
+
+    <script>
+        document.querySelector('.boton-restaurar').addEventListener('click', function(e) {
+            e.preventDefault();
+            Swal.fire({
+                title: "¿Estas seguro de restaurar la contraseña?",
+                text: "Se restaurara la contraseña por defecto: 123",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Si, restaurar contraseña",
+                cancelButtonText: "Cancelar"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.href = this.href;
+                }
+            });
+        });
+    </script>
+
+</body>
+
+</html>

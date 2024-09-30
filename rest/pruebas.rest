@@ -1,0 +1,43 @@
+###
+GET http://127.0.0.1:8000/usuario/destinatariosC
+Content-Type: application/json
+Accept: application/json
+
+{
+    "csrf_token" : "cQccCDE7MRoeRAFIKTZNNTJoafPm5hrw7NjsF3hD",
+    "term": "Ni"
+}
+
+
+### Para hojas de ruta
+GET http://127.0.0.1:8000/ventanilla/clientesRemitente
+Content-Type: application/json
+Accept: application/json
+
+{
+    "csrf_token" : "HcMzyLoqfupnysLXYGBLmr3DDkuFWleMbsXRWdhZ",
+    "term": "la"
+}
+
+
+### prueba
+GET http://127.0.0.1:8000/api/fetch
+Content-Type: application/json
+Accept: application/json
+
+
+### eliminar item
+GET http://127.0.0.1:8000/eliminar/7
+Content-Type: application/json
+Accept: application/json
+
+
+### crear carpeta
+POST http://127.0.0.1:8000/registrar-carpeta
+Content-Type: application/json
+X-CSRF-TOKEN: 'UYfhmc1cdjppTl3u6pUkcVYmHizGXRpedeaQ4eP6'
+
+{
+    "id": "5",
+    "nombre": "FOTOS"
+}
